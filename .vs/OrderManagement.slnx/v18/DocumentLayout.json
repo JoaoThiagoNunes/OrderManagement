@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\joaot\\source\\repos\\OrderManagement\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{AD14F77F-030D-D8C9-61F4-026F2C6AD086}|OrderManagement.Api\\OrderManagement.Api.csproj|c:\\users\\joaot\\source\\repos\\ordermanagement\\ordermanagement.api\\.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{AD14F77F-030D-D8C9-61F4-026F2C6AD086}|OrderManagement.Api\\OrderManagement.Api.csproj|solutionrelative:ordermanagement.api\\.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": ".gitignore",
+              "DocumentMoniker": "C:\\Users\\joaot\\source\\repos\\OrderManagement\\OrderManagement.Api\\.gitignore",
+              "RelativeDocumentMoniker": "OrderManagement.Api\\.gitignore",
+              "ToolTip": "C:\\Users\\joaot\\source\\repos\\OrderManagement\\OrderManagement.Api\\.gitignore",
+              "RelativeToolTip": "OrderManagement.Api\\.gitignore",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-05-23T15:52:37.068Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
