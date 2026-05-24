@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OrderManagement.Api.App.DTOs;
 using OrderManagement.Api.DTOs;
 using OrderManagement.Api.Models;
 using OrderManagement.Api.Services;
@@ -16,12 +17,11 @@ public class OrdersController : ControllerBase
         _orderService = orderService;
     }
 
-
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll([FromQuery] OrderFilterDto filter)
     {
-        var orders = await _orderService.GetAllAsync();
+        var orders = await _orderService.GetAllAsync(filter);
         return Ok(orders);
     }
 
@@ -67,15 +67,15 @@ public class OrdersController : ControllerBase
         }
     }
 
-    [HttpDelete("{id}")]
+    [HttpPatch("{id}/status")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Cancel(Guid id)
+    public async Task<IActionResult> UpdateStatus(Guid id, [FromBody] OrderStatus newStatus)
     {
         try
         {
-            var order = await _orderService.CancelAsync(id);
+            var order = await _orderService.UpdateStatusAsync(id, newStatus);
             return Ok(order);
         }
         catch (KeyNotFoundException ex)
@@ -88,15 +88,15 @@ public class OrdersController : ControllerBase
         }
     }
 
-    [HttpPatch("{id}/status")]
+    [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> UpdateStatus(Guid id, [FromBody] OrderStatus newStatus)
+    public async Task<IActionResult> Cancel(Guid id)
     {
         try
         {
-            var order = await _orderService.UpdateStatusAsync(id, newStatus);
+            var order = await _orderService.CancelAsync(id);
             return Ok(order);
         }
         catch (KeyNotFoundException ex)

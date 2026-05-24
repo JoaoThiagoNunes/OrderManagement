@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OrderManagement.Api.Data;
 using OrderManagement.Api.DTOs;
+using OrderManagement.Api.App.DTOs;
 using OrderManagement.Api.Models;
 
 namespace OrderManagement.Api.Services;
@@ -28,6 +29,22 @@ public class OrderService : IOrderService
             .Include(o => o.Buyer)
             .Include(o => o.Products)
             .FirstOrDefaultAsync(o => o.Id == id);
+    }
+
+    public async Task<IEnumerable<Order>> GetAllAsync(OrderFilterDto filter)
+    {
+        var query = _context.Orders
+            .Include(o => o.Buyer)
+            .Include(o => o.Products)
+            .AsQueryable();
+
+        if (filter.Status.HasValue)
+            query = query.Where(o => o.Status == filter.Status.Value);
+
+        if (!string.IsNullOrWhiteSpace(filter.BuyerName))
+            query = query.Where(o => o.Buyer.Name.Contains(filter.BuyerName));
+
+        return await query.ToListAsync();
     }
 
     public async Task<Order> CreateAsync(CreateOrderDto dto)
