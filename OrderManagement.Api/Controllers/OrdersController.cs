@@ -84,6 +84,32 @@ public class OrdersController : ControllerBase
         return Ok(order);
     }
 
+    [HttpPatch("{id}/status")]
+    public async Task<IActionResult> UpdateStatus(Guid id, [FromBody] OrderStatus newStatus)
+    {
+        var order = await _context.Orders.FindAsync(id);
+
+        if (order is null)
+            return NotFound("Pedido não encontrado.");
+
+        var valid = (order.Status, newStatus) switch
+        {
+            (OrderStatus.Iniciado, OrderStatus.Processado) => true,
+            (OrderStatus.Iniciado, OrderStatus.Cancelado) => true,
+            (OrderStatus.Processado, OrderStatus.Enviado) => true,
+            (OrderStatus.Processado, OrderStatus.Cancelado) => true,
+            _ => false
+        };
+
+        if (!valid)
+            return BadRequest($"Não é possível mudar o status de '{order.Status}' para '{newStatus}'.");
+
+        order.Status = newStatus;
+        await _context.SaveChangesAsync();
+
+        return Ok(order);
+    }
+
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> Cancel(Guid id)
@@ -101,6 +127,7 @@ public class OrdersController : ControllerBase
 
         return Ok(order);
     }
+
 }
 
 
