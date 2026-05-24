@@ -85,9 +85,10 @@ public class OrdersController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Update(Guid id, [FromBody] Order updatedOrder)
+    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateOrderDto dto)
     {
         var order = await _context.Orders
+            .Include(o => o.Buyer)
             .Include(o => o.Products)
             .FirstOrDefaultAsync(o => o.Id == id);
 
@@ -97,13 +98,29 @@ public class OrdersController : ControllerBase
         if (order.Status != OrderStatus.Iniciado)
             return BadRequest("Apenas pedidos com status 'Iniciado' podem ser alterados.");
 
-        if (updatedOrder.Products is null || updatedOrder.Products.Count == 0)
+        if (dto.Products is null || dto.Products.Count == 0)
             return BadRequest("O pedido deve ter pelo menos um produto.");
 
-        order.Products = updatedOrder.Products;
-        order.BuyerId = updatedOrder.BuyerId;
+        order.Buyer.Name = dto.BuyerName;
 
+        var oldProducts = await _context.Products
+            .Where(p => p.OrderId == order.Id)
+            .ToListAsync();
+
+        _context.Products.RemoveRange(oldProducts);
+
+        var newProducts = dto.Products.Select(p => new Product
+        {
+            Id = Guid.NewGuid(),
+            Name = p.Name,
+            Price = p.Price,
+            OrderId = order.Id
+        }).ToList();
+
+        await _context.Products.AddRangeAsync(newProducts);
         await _context.SaveChangesAsync();
+
+        order.Products = newProducts;
 
         return Ok(order);
     }
