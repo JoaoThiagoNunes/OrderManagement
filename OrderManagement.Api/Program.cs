@@ -1,8 +1,10 @@
+using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OrderManagement.Api.Data;
 using OrderManagement.Api.DTOs;
 using OrderManagement.Api.Services;
+using Asp.Versioning;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,6 +41,17 @@ builder.Services.AddSwaggerGen(c =>
             Email = "joaothiago.dev@gmail.com"
         }
     });
+});
+
+builder.Services.AddApiVersioning(options =>
+{
+    options.DefaultApiVersion = new ApiVersion(1, 0);
+    options.AssumeDefaultVersionWhenUnspecified = true;
+    options.ReportApiVersions = true;
+}).AddApiExplorer(options =>
+{
+    options.GroupNameFormat = "'v'VVV";
+    options.SubstituteApiVersionInUrl = true;
 });
 
 builder.Services.AddEndpointsApiExplorer();

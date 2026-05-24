@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Asp.Versioning;
+using Microsoft.AspNetCore.Mvc;
 using OrderManagement.Api.App.DTOs;
 using OrderManagement.Api.DTOs;
 using OrderManagement.Api.Models;
@@ -7,7 +8,8 @@ using OrderManagement.Api.Services;
 namespace OrderManagement.Api.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[ApiVersion("1.0")]
+[Route("api/v{version:apiVersion}/[controller]")]
 public class OrdersController : ControllerBase
 {
     private readonly IOrderService _orderService;
