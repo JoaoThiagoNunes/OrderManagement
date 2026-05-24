@@ -1,9 +1,13 @@
-﻿namespace OrderManagement.Api.Models
+﻿namespace OrderManagement.Api.Models;
+
+public class Order
 {
-    public class Order
-    {
-        public Guid Id { get; set; } = Guid.NewGuid();  
-        public string Name { get; set; } = string.Empty;
-        public decimal Price { get; set; }
-    }
+    public Guid Id { get; set; } = Guid.NewGuid();
+    public OrderStatus Status { get; set; } = OrderStatus.Iniciado;
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+    public Guid BuyerId { get; set; }
+    public Buyer Buyer { get; set; } = null!;
+
+    public List<Product> Products { get; set; } = new();
 }

@@ -1,14 +1,12 @@
-﻿namespace OrderManagement.Api.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace OrderManagement.Api.Models;
+
+public class Product
 {
-    public class Product
-    {
-        public Guid Id { get; set; } = Guid.NewGuid();
-        public OrderStatus Status { get; set; } = OrderStatus.Iniciado;
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public Guid Id { get; set; } = Guid.NewGuid();
+    public string Name { get; set; } = string.Empty;
 
-        public Guid BuyerId { get; set; }
-        public Buyer Buyer { get; set; } = null!;
-
-        public List<Product> Products { get; set; } = new();
-    }
+    [Column(TypeName = "decimal(18,2)")]
+    public decimal Price { get; set; }
 }
