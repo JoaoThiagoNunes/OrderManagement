@@ -26,7 +26,20 @@ builder.Services.AddControllers()
     });
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+    {
+        Title = "Desáfio Protech - API e-comerce ",
+        Version = "v1",
+        Description = "API RESTful para gerenciamento de pedidos de e-commerce.",
+        Contact = new Microsoft.OpenApi.Models.OpenApiContact
+        {
+            Name = "João Thiago",
+            Email = "joaothiago.dev@gmail.com"
+        }
+    });
+});
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
