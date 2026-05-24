@@ -1,4 +1,4 @@
-# e-comerce API
+# E-comerce API
 
 API para gerenciamento de pedidos de e-commerce. Desenvolvida com .NET 8, Entity Framework Core e SQL Server.
 
@@ -16,7 +16,7 @@ API para gerenciamento de pedidos de e-commerce. Desenvolvida com .NET 8, Entity
 git clone https://github.com/JoaoThiagoNunes/OrderManagement.git
 cd OrderManagement/OrderManagement.Api
 ```
-
+Configure a connection string no `appsettings.json`:
 ```json
 "DefaultConnection": "Server=localhost\\SQLEXPRESS;Database=OrderManagement;Trusted_Connection=True;TrustServerCertificate=True;"
 ```
