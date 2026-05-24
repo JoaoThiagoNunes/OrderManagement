@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using OrderManagement.Api.Data;
 using OrderManagement.Api.Models;
-
+using OrderManagement.Api.DTOs;
 
 namespace OrderManagement.Api.Controllers;
 
@@ -44,14 +44,30 @@ public class OrdersController : ControllerBase
 
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] Order order)
+    public async Task<IActionResult> Create([FromBody] CreateOrderDto dto)
     {
-        if (order.Products is null || order.Products.Count == 0)
-            return BadRequest("O pedido deve ter pelo menos um produto.");
+        var buyer = new Buyer
+        {
+            Id = Guid.NewGuid(),
+            Name = dto.BuyerName
+        };
 
-        order.Id = Guid.NewGuid();
-        order.Status = OrderStatus.Iniciado;
-        order.CreatedAt = DateTime.UtcNow;
+        var products = dto.Products.Select(p => new Product
+        {
+            Id = Guid.NewGuid(),
+            Name = p.Name,
+            Price = p.Price
+        }).ToList();
+
+        var order = new Order
+        {
+            Id = Guid.NewGuid(),
+            Status = OrderStatus.Iniciado,
+            CreatedAt = DateTime.UtcNow,
+            Buyer = buyer,
+            BuyerId = buyer.Id,
+            Products = products
+        };
 
         _context.Orders.Add(order);
         await _context.SaveChangesAsync();
@@ -83,6 +99,7 @@ public class OrdersController : ControllerBase
 
         return Ok(order);
     }
+
 
     [HttpPatch("{id}/status")]
     public async Task<IActionResult> UpdateStatus(Guid id, [FromBody] OrderStatus newStatus)
