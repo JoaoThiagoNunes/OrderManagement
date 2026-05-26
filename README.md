@@ -44,3 +44,11 @@ dotnet run
 `Iniciado` ou `Processado` → `Cancelado`
 
 Pedidos só podem ser alterados enquanto estiverem com status `Iniciado`.
+
+## Melhorias futuras
+
+- **Cadastro de compradores**: atualmente o comprador é criado junto com o pedido. Uma melhoria seria ter um endpoint separado para cadastro de compradores, permitindo que um comprador tenha conta na plataforma, histórico de pedidos e dados como endereço e contato.
+
+- **Autenticação e autorização**: proteger os endpoints com JWT.
+
+- **Paginação**: adicionar paginação na listagem de pedidos.
