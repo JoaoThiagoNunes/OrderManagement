@@ -4,6 +4,7 @@ namespace OrderManagement.Api.DTOs;
 
 public class CreateOrderDto
 {
+
     [Required(ErrorMessage = "O comprador é obrigatório.")]
     public required string BuyerName { get; set; }
 
